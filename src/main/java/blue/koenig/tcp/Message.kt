@@ -1,10 +1,11 @@
-package blue.koenig.tcp;
+package blue.koenig.tcp
 
-import java.nio.ByteBuffer;
+import java.nio.ByteBuffer
 
 /**
  * Copyright Hensoldt Sensors GmbH
- * <p>
+ *
+ *
  * Version: $Revision: 1 $
  * Author: Thomas König
  * Creation date: 22.01.2018
@@ -12,7 +13,7 @@ import java.nio.ByteBuffer;
  * Last changed date: $Date: 22.01.2018 $
  */
 
-public interface Message {
+interface Message {
 
-    ByteBuffer getByteBuffer();
+    val byteBuffer: ByteBuffer
 }
