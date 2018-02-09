@@ -76,13 +76,17 @@ class TCPClientConnection(private val port: Int, private val ipaddress: String) 
     private fun openSocket(): Boolean {
         socketChannel = SocketChannel.open()
         selector = Selector.open()
-
-        val connected = socketChannel?.connect(InetSocketAddress(ipaddress, port)) ?: false
-
-        socketChannel?.configureBlocking(false)
-        socketChannel?.register(selector, SelectionKey.OP_READ)
-        //connectionPending = false;
-        return connected
+        try {
+            val connected = socketChannel?.connect(InetSocketAddress(ipaddress, port)) ?: false
+            socketChannel?.configureBlocking(false)
+            socketChannel?.register(selector, SelectionKey.OP_READ)
+            return connected
+        } catch (exception: IOException) {
+            // close socket and selector and rethrow exception
+            socketChannel?.close()
+            selector?.close()
+            throw exception
+        }
     }
 
     @Throws(IOException::class)
