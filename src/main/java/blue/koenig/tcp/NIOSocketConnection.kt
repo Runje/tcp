@@ -25,10 +25,13 @@ abstract class NIOSocketConnection {
                 while (buffer.hasRemaining()) {
                     bytes += socketChannel.write(buffer)
                     logger.info("Wrote bytes " + bytes + "/" + buffer.limit())
+                    if (buffer.hasRemaining()) {
+                        // Sleep, because it could write 0 a lot of times!
+                        Thread.sleep(10)
+                    }
                 }
 
-                // Sleep, because it could write 0 a lot of times!
-                Thread.sleep(10)
+
 
             } catch (e: InterruptedException) {
                 e.printStackTrace()
